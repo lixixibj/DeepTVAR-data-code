@@ -45,7 +45,7 @@ The following code will do parameter estimation on a simulated three-diemnsional
 ```
 python _main_for_para_estimation.py
 ```
-The training loss function values, estimated time-varying coefficients, variances, covariances and pretrained-model file will be saved in the folder `simulation-res/res/`.
+The training loss function values, estimated time-varying coefficients, variances, covariances of innovations and pretrained-model file will be saved in the folder `simulation-res/res/`.
 #### Real data application
 The following code will make predictions from 20 training samples
 ```
