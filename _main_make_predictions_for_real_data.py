@@ -536,7 +536,7 @@ def cal_summing_term(k,mp,A_coeffs_of_VAR_p,seqence_len_train,m,lower_traig_parm
 
 
 
-name_of_dataset='/Users/xixili/Dropbox/DeepTVAR-code/benchmarks-all/eu-3-prices-logged.csv'
+name_of_dataset='./eu-3-prices-logged.csv'
 train_data=pd.read_csv(name_of_dataset)
 difference_list=[True,True,True]
 m=3
@@ -553,7 +553,7 @@ train_len=len_of_data-test_len
 threshould=5e-6
 seed_value=6000
 iterations=900
-saving_path='./real-data-forecasting-res-seed6000-iters900-repoduce/'
+saving_path='./real-data-forecast-res/'
 #seed values for reproducting forecasting results
 
 
