@@ -15,7 +15,7 @@ Here, we brifely introduce some important `.py` files in this project.
 
 - `_main_for_para_estimation.py`: main code for parameter estimation in simulation study.
 - `lstm_network.py`: set up an LSTM network to generate time-varying VAR parameters.
-- `custom_loss.py`: evaluate log-likelihood function.
+- `custom_loss_float.py`: evaluate log-likelihood function.
 - `_model_fitting_for_real_data.py`: model fitting for real data.
 - `_main_make_predictions_for_real_data.py`: make predictions using the fitted model.
 
@@ -45,9 +45,7 @@ The following code will do parameter estimation on a simulated three-diemnsional
 ```
 python _main_for_para_estimation.py
 ```
-The output of estimated VAR coefficient matrices and variance-covariance matrix of innovations is 
-
-The training loss function values, estimated trends and pretrained-model file will be saved in the folder `simulation-res`.
+The training loss function values, estimated time-varying coefficients, variances, covariances and pretrained-model file will be saved in the folder `simulation-res/res/`.
 #### Real data application
 The following code will make predictions from 20 training samples
 ```
