@@ -332,12 +332,12 @@ def train_network(path_of_dataset, num_layers, iterations, hidden_dim, m, order,
     for i in range(0,iterations):
         A_coeffs_of_VAR_p, lower_traig_parms, initial_var_cov_params_of_initial_obs = lstm_model(x_input.float())
         
-        loss= compute_log_likelihood_using_conditional_density(target=y.float(),
-                                                                  A_coeffs_from_lstm=A_coeffs_of_VAR_p.float(),
-                                                                  lower_triang_params_form_lstm=lower_traig_parms,
-                                                                  m=m,
-                                                                  order=order,
-                                                                  var_cov_params_for_initial_obs=initial_var_cov_params_of_initial_obs)
+        loss= compute_log_likelihood(target=y.float(),
+            A_coeffs_from_lstm=A_coeffs_of_VAR_p.float(),
+            lower_triang_params_form_lstm=lower_traig_parms,
+            m=m,
+            order=order,
+            var_cov_params_for_initial_obs=initial_var_cov_params_of_initial_obs)
 
         f=open(loss_txt, 'a')
         f.write("\n%s" % loss.detach().numpy()[0,0])
