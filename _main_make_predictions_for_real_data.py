@@ -553,7 +553,7 @@ train_len=len_of_data-test_len
 threshould=5e-6
 seed_value=6000
 iterations=900
-saving_path='./real-data-forecasting-res/'
+saving_path='./real-data-forecast-res/'
 #seed values for reproducting forecasting results
 
 
