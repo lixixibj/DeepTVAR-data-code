@@ -454,7 +454,7 @@ def cal_var_cov_of_prediction_error_of_original_series(A_coeffs_of_VAR_p,lower_t
         #make
         print('U-shape')
         print(U_covariance.shape)
-        summing_m=cal_summing_term(k,mp,A_coeffs_of_VAR_p,seqence_len_train,m,lower_traig_parms,order,horizons)
+        summing_m=cal_summing_term(k,mp,A_coeffs_of_VAR_p,seqence_len_train,m,lower_traig_parms,order,horizon)
         var_cov=var_cov+torch.mm(torch.mm(summing_m,U_covariance),summing_m.t())
     var_cov_of_oginal_series=torch.mm(torch.mm(J,var_cov),J.t())
     var_list=[]
