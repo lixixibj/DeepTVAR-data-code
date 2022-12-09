@@ -77,7 +77,7 @@ SIS-ts3
 References
 ----------
 
-- Xixi Li, Jingsong Yuan (2022).  DeepVARwT: Deep Learning for a Time-varying VAR Model.  [Working paper]().
+- Xixi Li, Jingsong Yuan (2022).  DeepTVAR: Deep Learning for a Time-varying VAR Model.  [Working paper]().
 
 
 
