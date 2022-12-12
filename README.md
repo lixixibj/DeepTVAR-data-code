@@ -47,7 +47,7 @@ pip install pandas==1.1.5
 pip install packaging==21.3 
 pip install matplotlib==3.3.4
 ```
-## Usage
+## DeepTVAR
 #### Simulation study
 The following code will do parameter estimation using DeepTVAR model on a simulated three-diemnsional VAR(2) procoess
 ```
