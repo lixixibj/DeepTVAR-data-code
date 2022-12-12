@@ -9,15 +9,23 @@ Authors
 -   [Jingsong Yuan](https://www.research.manchester.ac.uk/portal/jingsong.yuan.html)
 
 ## Project structure
-This repository contains python code and data used to reproduce results in a simulation study and real data applications.
+This repository contains python code and data used to reproduce results in a simulation study and real data applications. The structure is as follows:
+```
+  ├── benchmarks-code-data 
+    ├── DeepAR                   # DeepAR model
+    ├── DeepState                    #Deep State space model
+    ├── QBLL                     # Kernel based time-varying VAR model                  
+    └── VAR               # Standard time-invariant VAR model
+  ├── real-data-forecast-res #Forecasting results from DeepTVAR model
+  ├── simulation-res                   # Simulation results from DeepTVAR model
+  ├── _main_for_para_estimation.py                  # Main code for parameter estimation in simulation study
+  ├── lstm_network.py                     # Set up an LSTM network to generate time-varying VAR parameters                  
+  ├──custom_loss_float.py               #Evaluate log-likelihood function.
+  ├── _model_fitting_for_real_data.py                     #  Model fitting for real data                  
+  └── _main_make_predictions_for_real_data.py               #  Make predictions using the fitted model
 
-Here, we brifely introduce some important `.py` files in this project.
-
-- `_main_for_para_estimation.py`: main code for parameter estimation in simulation study.
-- `lstm_network.py`: set up an LSTM network to generate time-varying VAR parameters.
-- `custom_loss_float.py`: evaluate log-likelihood function.
-- `_model_fitting_for_real_data.py`: model fitting for real data.
-- `_main_make_predictions_for_real_data.py`: make predictions using the fitted model.
+  
+ ```
 
 
 ## Preliminaries
