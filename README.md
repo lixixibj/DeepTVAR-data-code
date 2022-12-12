@@ -9,7 +9,7 @@ Authors
 -   [Jingsong Yuan](https://www.research.manchester.ac.uk/portal/jingsong.yuan.html)
 
 ## Project structure
-This repository contains python code and data used to reproduce results in a simulation study and real data applications. The structure is as follows:
+This repository contains code and data used to reproduce results in a simulation study and real data applications. The structure is as follows:
 ```
   ├── benchmarks-code-data 
     ├── DeepAR                   # DeepAR model
