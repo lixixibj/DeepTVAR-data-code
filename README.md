@@ -41,13 +41,13 @@ pip install matplotlib==3.3.4
 ```
 ## Usage
 #### Simulation study
-The following code will do parameter estimation on a simulated three-diemnsional VAR(2) procoess
+The following code will do parameter estimation using DeepTVAR model on a simulated three-diemnsional VAR(2) procoess
 ```
 python _main_for_para_estimation.py
 ```
 The training loss function values, estimated time-varying coefficients, variances, covariances of innovations and pretrained-model file will be saved in the folder `simulation-res/res/`.
 #### Real data application
-The following code will make predictions from 20 training samples
+The following Python code will make predictions from 20 training samples using DeepTVAR model
 ```
 python _main_make_predictions_for_real_data.py
 ```
