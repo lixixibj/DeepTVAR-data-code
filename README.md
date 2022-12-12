@@ -29,7 +29,7 @@ This repository contains code and data used to reproduce results in a simulation
 
 
 ## Preliminaries
-All code was implemented using 
+All Python code was implemented using 
 [![Python v3.6.15](https://img.shields.io/badge/python-v3.6.15-blue.svg)](https://www.python.org/downloads/release/python-3615/), and Pytorch was used for network training.
 
 Installation in a virtual environment is recommended:
