@@ -74,6 +74,7 @@ SIS-ts3
 
 ```
 ## Benchmark models
+All the code and data for the implementations of benchmark models are in the folder `benchmarks-code-data/`.
 #### 1. DeepAR
 The following Python code will make predictions from 20 training samples using DeepAR model
 ```
