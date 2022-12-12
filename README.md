@@ -76,11 +76,11 @@ SIS-ts3
 ## Benchmark models
 All the code and data for the implementations of benchmark models are in the folder `benchmarks-code-data/`. The structure is as follows:
 ```
-    .
+  ├── benchmarks-code-data 
     ├── DeepAR                   # DeepAR model
     ├── DeepState                    #Deep State space model
-    ├── QBLL                     # Kernel based time-varying VAR model
-    ├── VAR                    # Standard time-invariant VAR model
+    ├── QBLL                     # Kernel based time-varying VAR model                  
+    └── VAR               # Standard time-invariant VAR model
  ```
 #### 1. DeepAR
 The following Python code will make predictions from 20 training samples using DeepAR model
