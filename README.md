@@ -101,7 +101,7 @@ SIS-ts3
 [1.24542844 3.38579112 4.61276583 4.9721734  4.04111991 3.18858347
  3.46260696 3.71906189 3.96123821 4.19245691 4.41481965 4.62997914]
 ```
-The coresponding forecasts will be saved in the folder `benchmarks-code-data/DeepAR/eu_3_prices/`.
+The corresponding forecasts will be saved in the folder `benchmarks-code-data/DeepAR/eu_3_prices/`.
 
 #### 2. DeepState
 The following Python code will make predictions from 20 training samples using DeepState model
@@ -129,7 +129,7 @@ SIS-ts3
 [1.24542844 3.38579112 4.61276583 4.9721734  4.04111991 3.18858347
  3.46260696 3.71906189 3.96123821 4.19245691 4.41481965 4.62997914]
 ```
-The coresponding forecasts will be saved in the folder `benchmarks-code-data/DeepState/eu_3_prices/`.
+The corresponding forecasts will be saved in the folder `benchmarks-code-data/DeepState/eu_3_prices/`.
 
 
 #### 3. QBLL
@@ -158,7 +158,7 @@ SIS-ts3
 [1.24542844 3.38579112 4.61276583 4.9721734  4.04111991 3.18858347
  3.46260696 3.71906189 3.96123821 4.19245691 4.41481965 4.62997914]
 ```
-The coresponding forecasts will be saved in the folder `benchmarks-code-data/QBLL/`.
+The corresponding forecasts will be saved in the folder `benchmarks-code-data/QBLL/`.
 
 #### 4. VAR
 The following R code will make predictions from 20 training samples using time-invarient VAR model
@@ -270,7 +270,7 @@ The output of forecasting accuracies in terms of APE and SIS at h=1,...,12 is
 > print(mean(msis3[1:12]))
 [1] 4.347788
 ```
-The coresponding forecasts will be saved in the folder `benchmarks-code-data/VAR/`.
+The corresponding forecasts will be saved in the folder `benchmarks-code-data/VAR/`.
 
 References
 ----------
