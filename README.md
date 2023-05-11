@@ -160,7 +160,7 @@ The corresponding forecasts will be saved in the folder `benchmarks-code-data/De
 
 
 #### 3. QBLL
-The following Matlab code will make predictions from 20 training samples using QBLL model
+The following Matlab code from [Katerina's personal website](https://sites.google.com/site/katerinapetrovawebpage/research) will make predictions from 20 training samples using QBLL model
 ```
 QBLL_EU_3_prices.m
 ```
