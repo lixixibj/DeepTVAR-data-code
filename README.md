@@ -1,4 +1,4 @@
-# DeepTVAR: Deep Learning for a Time-varying VAR Model (Li and Yuan, 2022)
+# DeepTVAR: Deep Learning for a Time-Varying VAR Model with Extension to Integrated VAR (Li and Yuan, 2022)
 ## Introduction
 We propose a new approach called DeepTVAR that employs deep learning methodology for vector autoregressive (VAR) modeling and prediction with time-varying parameters. A Long Short-Term Memory (LSTM) network is used for this purpose. To ensure the stability of the model, we enforce the causality condition on the autoregressive coefficients using the transformation of Ansley & Kohn (1986). 
 
