@@ -305,6 +305,7 @@ def forecast_based_on_pretrained_model(original_train_test_data,m,order,differen
     mse_list=[]
     mape_list=[]
     msis_list=[]
+    mis_list=[]
 
     for i in range(m):
         print(i)
@@ -321,18 +322,24 @@ def forecast_based_on_pretrained_model(original_train_test_data,m,order,differen
         print(np.mean(mape_cal(acutal_observations_for_test[:,i], point_forecast_array[i,:])))
         mape_list.append(mape_cal(acutal_observations_for_test[:,i], point_forecast_array[i,:]))
 
+        print('mis')
+        print(mis(acutal_observations_for_test[:,i],upper_forecast_array[i,:], lower_forecast_array[i,:], 0.05, horizon))
+        print('mean-mis')
+        print(np.mean(mis_cal(acutal_observations_for_test[:,i],upper_forecast_array[i,:], lower_forecast_array[i,:], 0.05, horizon)))
+        mis_list.append(mis_cal( acutal_observations_for_test[:,i],upper_forecast_array[i,:], lower_forecast_array[i,:], 0.05, horizon))
+
         print('msis')
         print(msis(original_observations[0:(seqence_len_train_of_diff_data+1),i], acutal_observations_for_test[:,i],
                        upper_forecast_array[i,:], lower_forecast_array[i,:], 0.05, seasonality, horizon))
         print('mean-msis')
-        print(np.mean(msis(original_observations[0:(seqence_len_train_of_diff_data+1),i], acutal_observations_for_test[:,i],
+        print(np.mean(msis_cal(original_observations[0:(seqence_len_train_of_diff_data+1),i], acutal_observations_for_test[:,i],
                        upper_forecast_array[i,:], lower_forecast_array[i,:], 0.05, seasonality, horizon)))
             #cal msis
-        msis_list.append(msis(original_observations[0:(seqence_len_train_of_diff_data+1),i], acutal_observations_for_test[:,i],
+        msis_list.append(msis_cal(original_observations[0:(seqence_len_train_of_diff_data+1),i], acutal_observations_for_test[:,i],
                        upper_forecast_array[i,:], lower_forecast_array[i,:], 0.05, seasonality, horizon))
 
 
-    return mse_list,mape_list,msis_list,point_forecast_array,lower_forecast_array,upper_forecast_array
+    return mse_list,mape_list,mis_list,msis_list,point_forecast_array,lower_forecast_array,upper_forecast_array
 
 
 
@@ -536,7 +543,7 @@ def cal_summing_term(k,mp,A_coeffs_of_VAR_p,seqence_len_train,m,lower_traig_parm
 
 
 
-name_of_dataset='/Users/xixili/Dropbox/DeepTVAR-code/benchmarks-all/eu-3-prices-logged.csv'
+name_of_dataset='eu-3-prices-logged.csv'
 train_data=pd.read_csv(name_of_dataset)
 difference_list=[True,True,True]
 m=3
@@ -553,16 +560,16 @@ train_len=len_of_data-test_len
 threshould=5e-6
 seed_value=6000
 iterations=900
-saving_path='./real-data-forecast-res/'
+saving_path='./real-data-forecasting-res-seed6000-iters900-final-test-tets/'
 #seed values for reproducting forecasting results
 
 
-all_mape_ts1=np.zeros((num_of_forecast,horizons))
-all_msis_ts1=np.zeros((num_of_forecast,horizons))
-all_mape_ts2=np.zeros((num_of_forecast,horizons))
-all_msis_ts2=np.zeros((num_of_forecast,horizons))
-all_mape_ts3=np.zeros((num_of_forecast,horizons))
-all_msis_ts3=np.zeros((num_of_forecast,horizons))
+
+all_mse=np.zeros((num_of_forecast,horizons,m))
+all_mape=np.zeros((num_of_forecast,horizons,m))
+all_mis=np.zeros((num_of_forecast,horizons,m))
+all_msis=np.zeros((num_of_forecast,horizons,m))
+
 for f in range(num_of_forecast):
     set_global_seed(seed_value)
     print('ts-section:')
@@ -576,38 +583,58 @@ for f in range(num_of_forecast):
 #model fitting
     lstm_model=train_network(training_data,difference_list,m, order, num_layers, iterations, hidden_dim,res_saving_path,threshould)
 #make predictions
-    mse_list,mape_list,msis_list,point_forecast_array,lower_forecast_array,upper_forecast_array=forecast_based_on_pretrained_model(original_train_test_data,m,order,difference_list,num_layers,hidden_dim,lstm_model,horizons,seasonality)
-    print('point_forecast_array')
-    print(point_forecast_array)
-    print('lower_forecast_array')
-    print(lower_forecast_array)
-    print('upper_forecast_array')
-    print(upper_forecast_array)
-    all_mape_ts1[f,:]=mape_list[0]
-    all_msis_ts1[f,:]=msis_list[0]
-    all_mape_ts2[f,:]=mape_list[1]
-    all_msis_ts2[f,:]=msis_list[1]
-    all_mape_ts3[f,:]=mape_list[2]
-    all_msis_ts3[f,:]=msis_list[2]
+    mse_list,mape_list,mis_list,msis_list,point_forecast_array,lower_forecast_array,upper_forecast_array=forecast_based_on_pretrained_model(original_train_test_data,m,order,difference_list,num_layers,hidden_dim,lstm_model,horizons,seasonality)
+
+    for ts in range(m):
+       all_mse[f,:,ts]= mse_list[ts]
+       all_mape[f,:,ts]= mape_list[ts]
+       all_mis[f,:,ts]= mis_list[ts]
+       all_msis[f,:,ts]= msis_list[ts]
+
     #save forecasts
     pd.DataFrame(point_forecast_array).to_csv(res_saving_path+'point_forecasts.csv')
     pd.DataFrame(lower_forecast_array).to_csv(res_saving_path+'lower_forecasts.csv')
     pd.DataFrame(upper_forecast_array).to_csv(res_saving_path+'upper_forecasts.csv')
 
 #calculate averaged accuracy
-print('APE-ts1')
-print(np.mean(all_mape_ts1,axis=0))
-print('APE-ts2')
-print(np.mean(all_mape_ts2,axis=0))
-print('APE-ts3')
-print(np.mean(all_mape_ts3,axis=0))
 
-print('SIS-ts1')
-print(np.mean(all_msis_ts1,axis=0))
-print('SIS-ts2')
-print(np.mean(all_msis_ts2,axis=0))
-print('SIS-ts3')
-print(np.mean(all_msis_ts3,axis=0))
+for ts in range(m):
+    print('ts')
+    print(ts+1)
+    mse=np.mean(all_mse[:,:,ts],axis=0)
+    print('mse:h1-12')
+    print(mse)
+    print('average over h=1-6')
+    print(np.mean(mse[0:6]))
+    print('average over h=1-12')
+    print(np.mean(mse))
+
+    mape=np.mean(all_mape[:,:,ts],axis=0)
+    print('mape:h1-12')
+    print(mape)
+    print('average over h=1-6')
+    print(np.mean(mape[0:6]))
+    print('average over h=1-12')
+    print(np.mean(mape))
+
+    mis=np.mean(all_mis[:,:,ts],axis=0)
+    print('mis:h1-12')
+    print(mis)
+    print('average over h=1-6')
+    print(np.mean(mis[0:6]))
+    print('average over h=1-12')
+    print(np.mean(mis))
+
+    msis=np.mean(all_msis[:,:,ts],axis=0)
+    print('msis:h1-12')
+    print(msis)
+    print('average over h=1-6')
+    print(np.mean(msis[0:6]))
+    print('average over h=1-12')
+    print(np.mean(msis))
+
+
+
 
 
 
