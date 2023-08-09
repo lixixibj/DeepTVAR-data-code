@@ -7,6 +7,7 @@ Authors
 
 -   [Xixi Li](https://lixixibj.github.io/)
 -   [Jingsong Yuan](https://www.research.manchester.ac.uk/portal/jingsong.yuan.html)
+- Any problems with this project, feel free to contact Xixi Li via email at xixi.li@manchester.ac.uk.
 
 ## Project structure
 This repository contains code and data used to reproduce results in a simulation study and real data applications. The structure is as follows:
