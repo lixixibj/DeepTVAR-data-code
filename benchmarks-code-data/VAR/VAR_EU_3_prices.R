@@ -43,6 +43,33 @@ msis_cal<-function(insample, outsample,forecasts.lower,forecasts.upper,a=0.05){
   }
   return(b/masep)
 }
+
+mis_cal<-function(outsample,forecasts.lower,forecasts.upper,a=0.05){
+  #
+  #frq <- stats::frequency(insample)
+  # m<-c()
+  # for (j in (frq+1):length(insample)){
+  #   m <- c(m, abs(insample[j]-insample[j-frq]))
+  # }
+  # masep<-mean(m)
+  #
+  b<-c()
+  for (i in 1:length(outsample)){
+    U.subtract.L<-forecasts.upper[i]-forecasts.lower[i]
+    if(outsample[i]<forecasts.lower[i]){
+      r<-(2/a)*(forecasts.lower[i]-outsample[i])
+    }else{
+      r<-0
+    }
+    if(outsample[i]>forecasts.upper[i]){
+      q<-(2/a)*(outsample[i]-forecasts.upper[i])
+    }else{
+      q<-0
+    }
+    b<-c(b, U.subtract.L+r+q)
+  }
+  return(b)
+}
 #VAR model
 #var model
 var.prediction<- function(diff.data,lag,num.of.ts) {
@@ -74,6 +101,13 @@ var.prediction<- function(diff.data,lag,num.of.ts) {
   zero.m2=matrix(0, (mp-num.of.ts),mp)
   big.sigma=unname(rbind(cbind(re$covres,zero.m1),zero.m2))
   J=cbind(diag(num.of.ts),matrix(0, num.of.ts,(mp-num.of.ts)))
+  sum.of.A.matrix<-function(big.A.m,k,h,mp){
+    A.sum=matrix(0, mp,mp)
+    for (l in k:h) {
+      A.sum=A.sum+matrix.power(big.A.m, (l-k))
+    }
+    return(A.sum)
+  }
   sigma.m=matrix(0,horizons,num.of.ts)
   
   for (h in 1:horizons) {
@@ -92,14 +126,6 @@ var.prediction<- function(diff.data,lag,num.of.ts) {
   return(list(ff=forecasts,sigma=sigma.m))
 }
 
-sum.of.A.matrix<-function(big.A.m,k,h,mp){
-  A.sum=matrix(0, mp,mp)
-  for (l in k:h) {
-    A.sum=A.sum+matrix.power(big.A.m, (l-k))
-  }
-  return(A.sum)
-}
-
 diff.dataframe<-function(original.data){
   r=dim(original.data)[1]
   c=dim(original.data)[2]
@@ -112,13 +138,12 @@ diff.dataframe<-function(original.data){
   #return(list(ff=diff.data,dd=1))
 }
 
-
 num.of.ts=3
 horizons=12
 num.of.forecast=20
 freq=12
 level.value=95
-all_data=read.csv('eu-prices.csv')
+all_data=read.csv('/Users/xixili/Dropbox/DeepTVAR-code/benchmarks-all/eu-prices.csv')
 all_data=all_data[,2:4]
 
 #log processing
@@ -146,13 +171,21 @@ test_len=horizons+num.of.forecast-1
 train_len=len-test_len
 lag_order=2
 
+mse.accuracy.m.ts1=matrix(NA,nrow = num.of.forecast,ncol = horizons)
+mse.accuracy.m.ts2=matrix(NA,nrow = num.of.forecast,ncol = horizons)
+mse.accuracy.m.ts3=matrix(NA,nrow = num.of.forecast,ncol = horizons)
 mape.accuracy.m.ts1=matrix(NA,nrow = num.of.forecast,ncol = horizons)
 mape.accuracy.m.ts2=matrix(NA,nrow = num.of.forecast,ncol = horizons)
 mape.accuracy.m.ts3=matrix(NA,nrow = num.of.forecast,ncol = horizons)
+
+mis.accuracy.m.ts1=matrix(NA,nrow = num.of.forecast,ncol = horizons)
+mis.accuracy.m.ts2=matrix(NA,nrow = num.of.forecast,ncol = horizons)
+mis.accuracy.m.ts3=matrix(NA,nrow = num.of.forecast,ncol = horizons)
+
 msis.accuracy.m.ts1=matrix(NA,nrow = num.of.forecast,ncol = horizons)
 msis.accuracy.m.ts2=matrix(NA,nrow = num.of.forecast,ncol = horizons)
 msis.accuracy.m.ts3=matrix(NA,nrow = num.of.forecast,ncol = horizons)
-mainDir='VAR'
+mainDir='/Users/xixili/Dropbox/DeepTVAR-code/benchmarks-all/eu-3-prices-var-model-p3'
 for (f in 1:num.of.forecast) {
   print('num')
   print(f)
@@ -181,9 +214,13 @@ for (f in 1:num.of.forecast) {
       lower.prediction=point.forecasts-1.96*sigma.m[,ts]
       upper.prediction=point.forecasts+1.96*sigma.m[,ts]
       msis=msis_cal(x, xx,lower.prediction,upper.prediction,a=0.05)
-      #mse.accuracy.m.ts1[f,]=mse
+      mis=mis_cal(xx,lower.prediction,upper.prediction,a=0.05)
+      mis.accuracy.m.ts1[f,]=mis
+      
+      mse.accuracy.m.ts1[f,]=mse
       mape.accuracy.m.ts1[f,]=mape
       msis.accuracy.m.ts1[f,]=msis
+      
     }else if (ts==2) {
       x=ts(all_data[b:e,2],frequency = freq)
       xx=ts(all_data[(1+e):(e+horizons),2],frequency = freq)
@@ -195,7 +232,10 @@ for (f in 1:num.of.forecast) {
       lower.prediction=point.forecasts-1.96*sigma.m[,ts]
       upper.prediction=point.forecasts+1.96*sigma.m[,ts]
       msis=msis_cal(x, xx,lower.prediction,upper.prediction,a=0.05)
-      #mse.accuracy.m.ts1[f,]=mse
+      mis=mis_cal(xx,lower.prediction,upper.prediction,a=0.05)
+      mis.accuracy.m.ts2[f,]=mis
+      
+      mse.accuracy.m.ts2[f,]=mse
       mape.accuracy.m.ts2[f,]=mape
       msis.accuracy.m.ts2[f,]=msis
     } else if (ts==3) {
@@ -209,7 +249,10 @@ for (f in 1:num.of.forecast) {
       lower.prediction=point.forecasts-1.96*sigma.m[,ts]
       upper.prediction=point.forecasts+1.96*sigma.m[,ts]
       msis=msis_cal(x, xx,lower.prediction,upper.prediction,a=0.05)
-      #mse.accuracy.m.ts1[f,]=mse
+      mis=mis_cal(xx,lower.prediction,upper.prediction,a=0.05)
+      mis.accuracy.m.ts3[f,]=mis
+      
+      mse.accuracy.m.ts3[f,]=mse
       mape.accuracy.m.ts3[f,]=mape
       msis.accuracy.m.ts3[f,]=msis
     }
@@ -226,15 +269,22 @@ for (f in 1:num.of.forecast) {
 
 print('ts')
 print(1)
-# print('mse')
-# print(colMeans(mse.accuracy.m.ts1))
+print('mse')
+mse1=colMeans(mse.accuracy.m.ts1)
+print(colMeans(mse.accuracy.m.ts1))
+print('h1-6')
+print(mean(mse1[1:6]))
+print('h1-12')
+print(mean(mse1[1:12]))
+
 print('mape')
 mape=colMeans(mape.accuracy.m.ts1)
-print('h1-4')
+print('h1-6')
 print(mean(mape[1:6]))
 print('h1-12')
 print(mean(mape[1:12]))
 print(colMeans(mape.accuracy.m.ts1))
+
 print('msis')
 print(colMeans(msis.accuracy.m.ts1))
 msis=colMeans(msis.accuracy.m.ts1)
@@ -243,11 +293,26 @@ print(mean(msis[1:6]))
 print('h1-12')
 print(mean(msis[1:12]))
 
+print('mis')
+print(colMeans(mis.accuracy.m.ts1))
+mis1=colMeans(mis.accuracy.m.ts1)
+print('h1-6')
+print(mean(mis1[1:6]))
+print('h1-12')
+print(mean(mis1[1:12]))
+
+
 
 print('ts')
 print(2)
-# print('mse')
-# print(colMeans(mse.accuracy.m.ts1))
+print('mse')
+mse2=colMeans(mse.accuracy.m.ts2)
+print(colMeans(mse.accuracy.m.ts2))
+print('h1-6')
+print(mean(mse2[1:6]))
+print('h1-12')
+print(mean(mse2[1:12]))
+
 print('mape')
 mape2=colMeans(mape.accuracy.m.ts2)
 print('h1-6')
@@ -255,6 +320,7 @@ print(mean(mape2[1:6]))
 print('h1-12')
 print(mean(mape2[1:12]))
 print(colMeans(mape.accuracy.m.ts2))
+
 print('msis')
 print(colMeans(msis.accuracy.m.ts2))
 msis2=colMeans(msis.accuracy.m.ts2)
@@ -263,10 +329,25 @@ print(mean(msis2[1:6]))
 print('h1-12')
 print(mean(msis2[1:12]))
 
+
+print('mis')
+print(colMeans(mis.accuracy.m.ts2))
+mis2=colMeans(mis.accuracy.m.ts2)
+print('h1-6')
+print(mean(mis2[1:6]))
+print('h1-12')
+print(mean(mis2[1:12]))
+
 print('ts')
 print(3)
-# print('mse')
-# print(colMeans(mse.accuracy.m.ts1))
+print('mse')
+mse3=colMeans(mse.accuracy.m.ts3)
+print(colMeans(mse.accuracy.m.ts3))
+print('h1-6')
+print(mean(mse3[1:6]))
+print('h1-12')
+print(mean(mse3[1:12]))
+
 print('mape')
 mape3=colMeans(mape.accuracy.m.ts3)
 print('h1-6')
@@ -274,6 +355,7 @@ print(mean(mape3[1:6]))
 print('h1-12')
 print(mean(mape3[1:12]))
 print(colMeans(mape.accuracy.m.ts3))
+
 print('msis')
 print(colMeans(msis.accuracy.m.ts3))
 msis3=colMeans(msis.accuracy.m.ts3)
@@ -281,5 +363,13 @@ print('h1-6')
 print(mean(msis3[1:6]))
 print('h1-12')
 print(mean(msis3[1:12]))
+
+print('mis')
+print(colMeans(mis.accuracy.m.ts3))
+mis3=colMeans(mis.accuracy.m.ts3)
+print('h1-6')
+print(mean(mis3[1:6]))
+print('h1-12')
+print(mean(mis3[1:12]))
 
 
