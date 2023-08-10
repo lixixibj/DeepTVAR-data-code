@@ -204,8 +204,8 @@ def plot_estimated_tv_params(len_of_seq,order,m,A_coeffs_of_VAR_p,lower_traig_pa
         e = estimated_A_df.iloc[i, order:]
 
         fig, ax = plt.subplots(figsize=(20, 10))
-        ax.plot(x_value, list(s), '-b', label='Simulation')
-        ax.plot(x_value, list(e), '-r', label='Estimation')
+        ax.plot(x_value, list(s), '-b', label='True value')
+        ax.plot(x_value, list(e), '-r', label='Estimated value')
                 # ax.axis('equal')
                 # leg = ax.legend();
         ax.legend(loc='upper left', frameon=False)
@@ -244,20 +244,22 @@ def plot_estimated_tv_params(len_of_seq,order,m,A_coeffs_of_VAR_p,lower_traig_pa
         e = estimated_var_cov_df.iloc[i, order:]
                 # plt.plot(e)
         fig, ax = plt.subplots(figsize=(20, 10))
-        ax.plot(x_value, list(s), '-b', label='Simulation')
-        ax.plot(x_value, list(e), '-r', label='Estimation')
+        ax.plot(x_value, list(s), '-b', label='True')
+        ax.plot(x_value, list(e), '-r', label='Estimated value')
                 # ax.axis('equal')
                 # leg = ax.legend();
         ax.legend(loc='upper left', frameon=False)
         name = str(i + 1) + '_var_cov.png'
         plt.savefig(var_cov_path+ name)
         plt.close()
+#np.array(estimated_A_df.iloc[:,order:]): shape (num,T-order)
+    return np.array(estimated_A_df.iloc[:,order:]),np.array(estimated_var_cov_df.iloc[:,order:])
 
 
 
 
 def train_network(path_of_dataset, num_layers, iterations, hidden_dim, m, order,path_of_initialized_params,simulated_A_path,
-                  simulated_var_cov_path,res_saving_path,threshould):
+                  simulated_var_cov_path,res_saving_path,threshould,num):
     r"""
         Train neural network
         Parameters
@@ -295,6 +297,9 @@ def train_network(path_of_dataset, num_layers, iterations, hidden_dim, m, order,
         threshould
            description: threshould to control training times
            type: int     
+        num
+           description: the number of the simulation
+           type: int   
         Returns
         -------
     """
@@ -318,8 +323,9 @@ def train_network(path_of_dataset, num_layers, iterations, hidden_dim, m, order,
     count_temp = 0
     x_input = change_data_shape(x)
     import os
+    res_saving_path=res_saving_path+str(num+1)
     loss_txt=res_saving_path+'/loss.txt'
-    pretrained_model_path = res_saving_path + '/pretrained_model/'
+    pretrained_model_path = res_saving_path+'/pretrained_model/'
     model_folder = os.path.exists(pretrained_model_path)
     if not model_folder: 
         os.makedirs(pretrained_model_path)
@@ -364,31 +370,154 @@ def train_network(path_of_dataset, num_layers, iterations, hidden_dim, m, order,
 
     #save loss, tv-params and pretrained-model
     len_of_seq= y.shape[0]
-    plot_estimated_tv_params(len_of_seq,order,m,A_coeffs_of_VAR_p,lower_traig_parms,res_saving_path,simulated_A_path,simulated_var_cov_path)
+    all_estimated_A,all_estimated_var_cov=plot_estimated_tv_params(len_of_seq,order,m,A_coeffs_of_VAR_p,lower_traig_parms,res_saving_path,simulated_A_path,simulated_var_cov_path)
     model_path = pretrained_model_path + str(i) + '_' + 'net_params.pkl'
     torch.save(lstm_model.state_dict(), model_path)
 
+    return all_estimated_A,all_estimated_var_cov
 
 
 
 
 
+def plot_estimates_over_100(simulated_A_path,simulated_var_cov_path,mean_estimated_A,mean_estimated_var_cov,lower_A,upper_A,lower_var_cov,upper_var_cov,saving_path):
+    A_path =saving_path+'/estimated-A-mean/'
+    import os
+    A_folder = os.path.exists(A_path)
+    if not A_folder: 
+        os.makedirs(A_path)
+    simulated_A_df = pd.read_csv(simulated_A_path)
+    estimated_A_df=pd.DataFrame(mean_estimated_A)
+    estimated_var_cov_df=pd.DataFrame(mean_estimated_var_cov)
+    lower_A_df=pd.DataFrame(lower_A)
+    upper_A_df=pd.DataFrame(upper_A)
+    lower_var_cov_df=pd.DataFrame(lower_var_cov)
+    upper_var_cov_df=pd.DataFrame(upper_var_cov)
+    from matplotlib.pylab import plt
+
+    k = simulated_A_df.shape[0]
+    x_value = np.array(range(simulated_A_df.shape[1])[(1+order):])
+    for i in range(k):
+                # plt.figure(figsize=(20, 10))
+        s = simulated_A_df.iloc[i, (order+1):]
+                # plt.plot(s)
+        e = estimated_A_df.iloc[i,:]
+
+        fig, ax = plt.subplots(figsize=(20, 10))
+        ax.plot(x_value, list(s), '-b', label='True value')
+        ax.plot(x_value, list(e), '-r', label='Mean')
+        ax.plot(x_value, list(lower_A_df.iloc[i,:]), '-g', label='Lower')
+        ax.plot(x_value, list(upper_A_df.iloc[i,:]), '-m', label='Upper')
+        ax.legend(loc='upper left', frameon=False)
+
+        name = str(i + 1) + '100_average_coefficient1.png'
+                # plt.savefig('./image/poly_trend_sine_s50/A/' + name)
+        plt.savefig(A_path+ name)
+        plt.close()
+
+    simulated_var_cov_df = pd.read_csv(simulated_var_cov_path)
+            # estimated_lower_tri_df = df
+            # visulize
+    # print(simulated_elems_df.head())
+    # print(simulated_elems_df.shape)
+    var_cov_path = saving_path+ '/estimated-var-cov-mean/' 
+    var_cov_folder = os.path.exists(var_cov_path)
+    if not var_cov_folder: 
+        os.makedirs(var_cov_path)
+    
+    k = simulated_var_cov_df.shape[1]-1
+    for i in range(k):
+        s = simulated_var_cov_df.iloc[order:,(i+1)]
+                # plt.plot(s)
+        e = estimated_var_cov_df.iloc[i,:]
+                # plt.plot(e)
+        fig, ax = plt.subplots(figsize=(20, 10))
+        ax.plot(x_value, list(s), '-b', label='True value')
+        ax.plot(x_value, list(e), '-r', label='Mean')
+        ax.plot(x_value, list(lower_var_cov_df.iloc[i,:]), '-g', label='Lower')
+        ax.plot(x_value, list(upper_var_cov_df.iloc[i,:]), '-m', label='Upper')
+                # ax.axis('equal')
+                # leg = ax.legend();
+        ax.legend(loc='upper left', frameon=False)
+        ax.set_title('$a_{1t}(1,1)$ ')
+        name = str(i + 1) + '100_average_var_cov1.png'
+
+        plt.savefig(var_cov_path+ name)
+        plt.close()
+
+
+
+def unzip_file(zip_path, extract_path):
+    with zipfile.ZipFile(zip_path, 'r') as zip_ref:
+        zip_ref.extractall(extract_path)
+        print(f"Extracted contents from '{zip_path}' to '{extract_path}'")
 
 
 #####################################################main######################################################################################
 m = 2
 order = 2
-hidden_dim=20
+hidden_dim=18
 num_layers = 1
-iterations=400
+iterations=450
 path_of_initialized_params='./simulation-res/initial_params.pkl'
-simulated_A_path='./simulation-res/simulated-params-data/A_coeffs_VAR_m2_p2_T500.csv'
-simulated_var_cov_path='./simulation-res/simulated-params-data/var_cov_VAR_m2_p2_cov_T500.csv'
-path_of_dataset='./simulation-res/simulated-params-data/simulated-var-process.csv'
-saving_path='./simulation-res/res'
+path_of_initialized_params='./simulation-res/49_net_params.pkl'
+#simulated_A_path='./simulation-res/simulated-params-data/A_coeffs_VAR_m2_p2_T500.csv'
+simulated_A_path='/Users/xixili/Dropbox/DeepTVAR-code/simulation-T200/R-parameters/A_coeffs_VAR_m2_p2_T500_causality_more_complex_1.csv'
+#simulated_var_cov_path='./simulation-res/simulated-params-data/var_cov_VAR_m2_p2_cov_T500.csv'
+simulated_var_cov_path='/Users/xixili/Dropbox/DeepTVAR-code/simulation-T200/R-parameters/fitted_cov_by_order_T500_from_macr_more_complex_1.csv'
+#path_of_dataset='./simulation-res/simulated-params-data/simulated-var-process.csv'
+saving_path='./simulation-res/res/'
 threshould=1e-6
 
 seed_value=511
+len_of_seq=500
+title=['$a_{1t}(1,1)$ ']
+n=2
 set_global_seed(seed_value)
-train_network(path_of_dataset, num_layers, iterations, hidden_dim, m, order, path_of_initialized_params,simulated_A_path, simulated_var_cov_path,saving_path,threshould)
+
+
+import zipfile
+import os
+zip_sim_data_path = './simulation-res/simulated-100ts-T500.zip'
+sim_data_extract_path = './simulation-res/simulated-100ts/'
+
+if not os.path.exists(sim_data_extract_path):
+    os.makedirs(sim_data_extract_path)
+    unzip_file(zip_sim_data_path, sim_data_extract_path)
+else:
+    print(f"'{sim_data_extract_path}' already exists. Skipping extraction.")
+
+
+#100 estimations
+all_A_coffs_all_t=np.zeros((n,m * m * order, len_of_seq-order))
+all_var_cov_elets_all_t = np.zeros((n,m*m, len_of_seq-order))
+#100 estimation
+for i in range(n):
+    path_of_dataset=sim_data_extract_path+'simulated-100ts-T500/'+str(i)+'_TVAR_m2_p2_T2_train.csv'
+
+    all_estimated_A,all_estimated_var_cov=train_network(path_of_dataset, num_layers, iterations, hidden_dim, m, order, path_of_initialized_params,simulated_A_path, simulated_var_cov_path,saving_path,threshould,i)
+    all_A_coffs_all_t[i,:,:]=all_estimated_A
+    all_var_cov_elets_all_t[i,:,:]=all_estimated_var_cov
+#plot mean
+
+#mean_A:num*(T-order)
+
+mean_A=np.mean(all_A_coffs_all_t, axis=0)
+mean_var_cov=np.mean(all_var_cov_elets_all_t,axis=0)
+#save results
+var_A=np.var(all_A_coffs_all_t, axis=0)
+var_var_cov=np.var(all_var_cov_elets_all_t,axis=0)
+lower_A=mean_A-1.96*(np.sqrt(var_A)/np.sqrt(n))
+upper_A=mean_A+1.96*(np.sqrt(var_A)/np.sqrt(n))
+lower_var_cov=mean_var_cov-1.96*(np.sqrt(var_var_cov)/np.sqrt(n))
+upper_var_cov=mean_var_cov+1.96*(np.sqrt(var_var_cov)/np.sqrt(n))
+
+print(var_A.shape)
+print(var_var_cov.shape)
+
+
+plot_estimates_over_100(simulated_A_path,simulated_var_cov_path,mean_A,mean_var_cov,lower_A,upper_A,lower_var_cov,upper_var_cov,'./simulation-res/')
+
+
+
 
