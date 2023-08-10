@@ -175,6 +175,7 @@ for i in range(num_of_forecast):
 for ts in range(num_of_ts):
     mse_array=np.zeros((num_of_forecast,horizons))
     mape_array=np.zeros((num_of_forecast,horizons))
+    mis_array=np.zeros((num_of_forecast,horizons))
     msis_array=np.zeros((num_of_forecast,horizons))
     ts_all=np.array(all_data.iloc[:,ts+1])
     for j in range(num_of_forecast):
@@ -185,15 +186,44 @@ for ts in range(num_of_ts):
         predicted=all_point_forecasts[ts,:,j]
         mse_array[j,]=mse_cal(xx,predicted)
         mape_array[j,]=mape_cal(xx,predicted)
-        msis_array[j,]=msis(x,xx,all_upper_forecasts[ts,:,j],all_lower_forecasts[ts,:,j],0.05,seasonality,horizons)
+        msis_array[j,]=msis_cal(x,xx,all_upper_forecasts[ts,:,j],all_lower_forecasts[ts,:,j],0.05,seasonality,horizons)
+        mis_array[j,]=mis_cal(xx,all_upper_forecasts[ts,:,j],all_lower_forecasts[ts,:,j],0.05,horizons)
     print('ts')
     print(ts)
-    print('mse')
-    print(np.mean(mse_array,axis=0))
-    print('mape')
-    print(np.mean(mape_array,axis=0))
-    print('msis')
-    print(np.mean(msis_array,axis=0))
+    print('mse:h1-12')
+    mse=np.mean(mse_array,axis=0)
+    print(mse)
+    print('h=1-6')
+    print(np.mean(mse[0:6]))
+    print('h=1-12')
+    print(np.mean(mse))
+
+    print('mape:h1-12')
+    mape=np.mean(mape_array,axis=0)
+    print(mape)
+    print('h=1-6')
+    print(np.mean(mape[0:6]))
+    print('h=1-12')
+    print(np.mean(mape))
+
+    print('mis:h1-12')
+    mis=np.mean(mis_array,axis=0)
+    print(mis)
+    print('h1-6')
+    print(np.mean(mis[0:6]))
+    print('h1-12')
+    print(np.mean(mis))
+
+
+
+
+    print('msis:h1-12')
+    msis=np.mean(msis_array,axis=0)
+    print(msis)
+    print('h1-6')
+    print(np.mean(msis[0:6]))
+    print('h1-12')
+    print(np.mean(msis))
 
 
 
