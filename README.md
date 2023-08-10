@@ -20,6 +20,7 @@ This repository contains code and data used to reproduce results in a simulation
   ├── real-data-forecast-res #Forecasting results from DeepTVAR model
   ├── simulation-res                   # Simulation results from DeepTVAR model
   ├── _main_for_para_estimation.py                  # Main code for parameter estimation in simulation study
+  ├── quick_plot_simu_res.py    # Code for quickly plotting simulation results based on 100 simulation runs
   ├── lstm_network.py                     # Set up an LSTM network to generate time-varying VAR parameters                  
   ├──custom_loss_float.py               #Evaluate log-likelihood function.
   ├── _model_fitting_for_real_data.py                     #  Model fitting for real data                  
@@ -42,7 +43,7 @@ conda activate python36
 pip install torch==1.10.2 torchvision==0.11.3 torchaudio==0.10.2 -f https://download.pytorch.org/whl/cpu/torch_stable.html
 ```
 
-The additonal installation of other packages with specific versions can be implemented using
+The additional installation of other packages with specific versions can be implemented using
 ```
 pip install pandas==1.1.5 
 pip install packaging==21.3 
@@ -50,6 +51,11 @@ pip install matplotlib==3.3.4
 ```
 ## DeepTVAR
 #### Simulation study
+The following code will quickly plot simulation results based on 100 simulation runs
+```
+python quick_plot_simu_res.py
+```
+The plots for estimated time-varying coefficients and variance=covariances will be saved in the folder `simulation-res/estimated-A-mean/` and `simulation-res/estimated-var-cov-mean/' respectively.
 The following code will do parameter estimation using DeepTVAR model on a simulated three-diemnsional VAR(2) procoess
 ```
 python _main_for_para_estimation.py
