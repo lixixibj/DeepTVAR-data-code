@@ -462,17 +462,16 @@ iterations=450
 path_of_initialized_params='./simulation-res/initial_params.pkl'
 path_of_initialized_params='./simulation-res/49_net_params.pkl'
 #simulated_A_path='./simulation-res/simulated-params-data/A_coeffs_VAR_m2_p2_T500.csv'
-simulated_A_path='/Users/xixili/Dropbox/DeepTVAR-code/simulation-T200/R-parameters/A_coeffs_VAR_m2_p2_T500_causality_more_complex_1.csv'
+simulated_A_path='./simulation-res/simulated-params-data/A_coeffs_VAR_m2_p2_T500_causality_more_complex_1.csv'
 #simulated_var_cov_path='./simulation-res/simulated-params-data/var_cov_VAR_m2_p2_cov_T500.csv'
-simulated_var_cov_path='/Users/xixili/Dropbox/DeepTVAR-code/simulation-T200/R-parameters/fitted_cov_by_order_T500_from_macr_more_complex_1.csv'
+simulated_var_cov_path='./simulation-res/simulated-params-data/fitted_cov_by_order_T500_from_macr_more_complex_1.csv'
 #path_of_dataset='./simulation-res/simulated-params-data/simulated-var-process.csv'
 saving_path='./simulation-res/res/'
 threshould=1e-6
 
 seed_value=511
 len_of_seq=500
-title=['$a_{1t}(1,1)$ ']
-n=2
+n=100
 set_global_seed(seed_value)
 
 
