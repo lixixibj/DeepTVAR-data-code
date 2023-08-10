@@ -31,6 +31,8 @@ This repository contains code and data used to reproduce results in the simulati
 
 
 ## Preliminaries
+All the computations were executed on an Intel Core i9 2.3 GHz processor with eight cores using a Macbook Pro.
+
 All Python code was implemented using 
 [![Python v3.6.15](https://img.shields.io/badge/python-v3.6.15-blue.svg)](https://www.python.org/downloads/release/python-3615/), and Pytorch was used for network training.
 
