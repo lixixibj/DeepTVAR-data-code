@@ -459,7 +459,6 @@ order = 2
 hidden_dim=18
 num_layers = 1
 iterations=450
-path_of_initialized_params='./simulation-res/initial_params.pkl'
 path_of_initialized_params='./simulation-res/49_net_params.pkl'
 #simulated_A_path='./simulation-res/simulated-params-data/A_coeffs_VAR_m2_p2_T500.csv'
 simulated_A_path='./simulation-res/simulated-params-data/A_coeffs_VAR_m2_p2_T500_causality_more_complex_1.csv'
