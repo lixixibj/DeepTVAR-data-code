@@ -59,7 +59,7 @@ def msis_calc(upper_forecasts_array,lower_forecasts_array,real_value_array,a,fre
 
     return msis_array
 
-def msis(training,actual,upper,lower,a,seasonality,horizon):
+def msis_cal(training,actual,upper,lower,a,seasonality,horizon):
     T = len(training)
     seasonaly_forecast_error=np.mean(mae(training[seasonality:],training[0:(T-seasonality)] ))
     interval=(upper-lower)
@@ -77,6 +77,26 @@ def msis(training,actual,upper,lower,a,seasonality,horizon):
     lower_penalty_array=np.array(lower_penalty)
     upper_penalty_array=np.array(upper_penalty)
     return (interval+lower_penalty_array+upper_penalty_array)/(seasonaly_forecast_error)
+
+
+def mis_cal(actual,upper,lower,a,horizon):
+    #T = len(training)
+    #seasonaly_forecast_error=np.mean(mae(training[seasonality:],training[0:(T-seasonality)] ))
+    interval=(upper-lower)
+    lower_penalty=[]
+    upper_penalty=[]
+    for i in range(horizon):
+        if actual[i]<lower[i]:
+            lower_penalty.append((lower[i]-actual[i] )*(2/a))
+        else:
+            lower_penalty.append(0)
+        if actual[i]>upper[i]:
+            upper_penalty.append((actual[i]-upper[i])*(2/a))
+        else:
+            upper_penalty.append(0)
+    lower_penalty_array=np.array(lower_penalty)
+    upper_penalty_array=np.array(upper_penalty)
+    return (interval+lower_penalty_array+upper_penalty_array)
 
 def mse_cal(actual,predicted):
     return _error(actual,predicted)*_error(actual,predicted)
