@@ -1,25 +1,25 @@
 # DeepTVAR: Deep Learning for a Time-Varying VAR Model with Extension to Integrated VAR (Li and Yuan, 2022)
 ## Introduction
-We propose a new approach called DeepTVAR that employs deep learning methodology for vector autoregressive (VAR) modeling and prediction with time-varying parameters. A Long Short-Term Memory (LSTM) network is used for this purpose. To ensure the stability of the model, we enforce the causality condition on the autoregressive coefficients using the transformation of Ansley & Kohn (1986). 
+We propose a new approach called DeepTVAR that employs deep learning methodology for vector autoregressive (VAR) modeling and prediction with time-varying parameters. A Long Short-Term Memory (LSTM) network is used for this purpose. To ensure the stability of the model, we enforce the causality condition on the autoregressive coefficients using the transformation of Ansley & Kohn (1986).
 
 Authors
 -------
 
 -   [Xixi Li](https://lixixibj.github.io/)
 -   [Jingsong Yuan](https://www.research.manchester.ac.uk/portal/jingsong.yuan.html)
-- Any problems with this project, feel free to contact Xixi Li via email at xixi.li@manchester.ac.uk.
+- For any questions about this project, please feel free to contact Xixi Li via email at xixi.li@manchester.ac.uk.
 
 ## Project structure
-This repository contains code and data used to reproduce results in a simulation study and real data applications. The structure is as follows:
+This repository contains code and data used to reproduce results in the simulation study and real data applications. The structure of this project is as follows:
 ```
   ├── benchmarks-code-data 
     ├── DeepAR                   # DeepAR model
     ├── DeepState                    #Deep State space model
     ├── QBLL                     # Kernel based time-varying VAR model                  
     └── VAR               # Standard time-invariant VAR model
-  ├── real-data-forecast-res #Forecasting results from DeepTVAR model
+  ├── real-data-forecast-res #Forecasting results from the DeepTVAR model
   ├── simulation-res                   # Simulation results from DeepTVAR model
-  ├── _main_for_para_estimation.py                  # Main code for parameter estimation in simulation study
+  ├── _main_for_para_estimation.py                  # Main code for parameter estimation in a simulation study
   ├── quick_plot_simu_res.py    # Code for quickly plotting simulation results based on 100 simulation runs
   ├── lstm_network.py                     # Set up an LSTM network to generate time-varying VAR parameters                  
   ├──custom_loss_float.py               #Evaluate log-likelihood function.
@@ -55,18 +55,19 @@ The following code will quickly plot simulation results based on 100 simulation 
 ```
 python quick_plot_simu_res.py
 ```
-The plots for estimated time-varying coefficients and variance=covariances will be saved in the folder `simulation-res/estimated-A-mean/` and `simulation-res/estimated-var-cov-mean/' respectively.
-The following code will do parameter estimation using DeepTVAR model on a simulated three-diemnsional VAR(2) procoess
+The plots for estimated time-varying coefficients, variances, and covariances of innovations will be saved in the folder `simulation-res/estimated-A-mean/` and `simulation-res/estimated-var-cov-mean/' respectively.
+
+The following code will do parameter estimation from scratch using the DeepTVAR model on 100 simulated two-dimensional time-varying VAR(2) processes.
 ```
 python _main_for_para_estimation.py
 ```
-The training loss function values, estimated time-varying coefficients, variances, covariances of innovations and pretrained-model file will be saved in the folder `simulation-res/res/`.
+The training loss function values, estimated time-varying coefficients, variances, covariances of innovations, and the trained-model file for each simulation will be saved in the folder `simulation-res/res/`.
 #### Real data application
-The following Python code will make predictions from 20 training samples using DeepTVAR model
+The following Python code will make predictions from 20 training samples using the DeepTVAR model
 ```
 python _main_make_predictions_for_real_data.py
 ```
-The output of forecasting accuracies in terms of APE and SIS at h=1,...,12 is 
+The output of forecasting accuracies in terms of MSE, MAPE, MIS and MSIS at h=1,...,12 is 
 ```
 APE-ts1
 ts
@@ -171,11 +172,11 @@ All the code and data for the implementations of benchmark models are in the fol
     └── VAR               # Standard time-invariant VAR model
  ```
 #### 1. DeepAR
-The following Python code will make predictions from 20 training samples using DeepAR model
+The following Python code will make predictions from 20 training samples using the DeepAR model
 ```
 python DeepAR_EU_3_prices.py
 ```
-The output of forecasting accuracies in terms of APE and SIS at h=1,...,12 is 
+The output of forecasting accuracies in terms of MSE, MAPE, MIS and MSIS at h=1,...,12 is 
 ```
 ts
 0
@@ -271,11 +272,11 @@ h1-12
 The corresponding forecasts will be saved in the folder `benchmarks-code-data/DeepAR/eu_3_prices/`.
 
 #### 2. DeepState
-The following Python code will make predictions from 20 training samples using DeepState model
+The following Python code will make predictions from 20 training samples using the DeepState model
 ```
 python DeepState_EU_3_prices.py.py
 ```
-The output of forecasting accuracies in terms of APE and SIS at h=1,...,12 is 
+The output of forecasting accuracies in terms of MSE, MAPE, MIS and MSIS at h=1,...,12 is 
 ```
  ts
 0
@@ -372,11 +373,11 @@ The corresponding forecasts will be saved in the folder `benchmarks-code-data/De
 
 
 #### 3. QBLL
-The following Matlab code from [Katerina's personal website](https://sites.google.com/site/katerinapetrovawebpage/research) will make predictions from 20 training samples using QBLL model
+The following Matlab code from [Katerina's personal website](https://sites.google.com/site/katerinapetrovawebpage/research) will make predictions from 20 training samples using the QBLL model
 ```
 QBLL_EU_3_prices.m
 ```
-The output of forecasting accuracies in terms of APE and SIS at h=1,...,12 is 
+The output of forecasting accuracies in terms of MSE, MAPE, MIS and MSIS at h=1,...,12 is 
 ```
 ts
 
@@ -435,11 +436,11 @@ ans =
 The corresponding forecasts will be saved in the folder `benchmarks-code-data/QBLL/`.
 
 #### 4. VAR
-The following R code will make predictions from 20 training samples using time-invarient VAR model
+The following R code will make predictions from 20 training samples using a time-invariant VAR model
 ```
 VAR_EU_3_prices.R
 ```
-The output of forecasting accuracies in terms of APE and SIS at h=1,...,12 is 
+The output of forecasting accuracies in terms of MSE, MAPE, MIS and MSIS at h=1,...,12 is 
 ```
 > print('ts')
 [1] "ts"
@@ -549,7 +550,7 @@ The corresponding forecasts will be saved in the folder `benchmarks-code-data/VA
 References
 ----------
 
-- Xixi Li, Jingsong Yuan (2022).  DeepTVAR: Deep Learning for a Time-varying VAR Model.  [Working paper]().
+- Xixi Li, Jingsong Yuan (2022).  DeepTVAR: Deep Learning for a Time-Varying VAR Model with Extension to Integrated VAR.  [Working paper]().
 
 
 
