@@ -292,7 +292,7 @@ def make_var_cov_matrix_for_innovation_of_varp(lower_triang_params_form_lstm,m,o
     count_temp=0
     for i in range(m):
         for j in range(i+1):
-            lower_t_matrix[i,j]=lower_triang_params_form_lstm[count_temp].clone()
+            lower_t_matrix[i,j]=lower_triang_params_form_lstm[count_temp]
             count_temp=count_temp+1
 #diag
     var_cov_matrix = torch.mm(lower_t_matrix, lower_t_matrix.t())
@@ -326,12 +326,12 @@ def make_var_cov_matrix_for_innovation_of_varp_three_decomp(lower_triang_params_
     count_temp=0
     for i in range(1,m):
         for j in range(i):
-            lower_t_matrix[i,j]=lower_triang_params_form_lstm[count_temp].clone()
+            lower_t_matrix[i,j]=lower_triang_params_form_lstm[count_temp]
             count_temp=count_temp+1
     #
     diag_m=torch.eye(m,m)
     for i in range(m):
-        diag_m[i,i]=lower_triang_params_form_lstm[count_temp].clone()*lower_triang_params_form_lstm[count_temp].clone()
+        diag_m[i,i]=lower_triang_params_form_lstm[count_temp]*lower_triang_params_form_lstm[count_temp]
         count_temp=count_temp+1
 
 
@@ -368,7 +368,7 @@ def get_lower_trang_m(lower_triang_params_form_lstm,m,order):
     count_temp=0
     for i in range(m):
         for j in range(i+1):
-            lower_t_matrix[i,j]=lower_triang_params_form_lstm[count_temp].clone()
+            lower_t_matrix[i,j]=lower_triang_params_form_lstm[count_temp]
             count_temp=count_temp+1
 #diag
     #var_cov_matrix = torch.mm(lower_t_matrix, lower_t_matrix.t())
@@ -404,7 +404,7 @@ def make_var_cov_matrix_for_initial_obs(var_cov_params_for_initial_obs,m,order):
     #make upper triangel matrix
     for i in range(mp):
         for j in range(mp-i):
-            upper_t_matrix[i,i+j]=var_cov_params_for_initial_obs[count_temp].clone()
+            upper_t_matrix[i,i+j]=var_cov_params_for_initial_obs[count_temp]
             count_temp=count_temp+1
     var_cov_m = torch.mm(upper_t_matrix.t(), upper_t_matrix)
 
