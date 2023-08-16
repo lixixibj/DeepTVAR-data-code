@@ -33,24 +33,24 @@ clc
 rng(2,'twister') % for reproducibility
 [x,fval,exitflag,output] = ga(@rastriginsfcn, 2);
 
-%load data_quarterly.mat
-%data = csvread('/Users/xixili/Dropbox/DeepTVAR-code/benchmarks-all/QBLL-benchmark/usmacro_T195_for_matlab.csv');
 data = csvread('eu-3-prices-logged-for-matlab.csv');
 
 num_of_forecast=20;
 model.horizon  = 12; %forecast horizon
-freq=12;
+freq=12; %monthly dataset
 [len,~] = size(data)
 test_len=model.horizon+num_of_forecast-1
 train_len=len-test_len
+
 save_file_point='QBLL/point/';
 save_file_lower='QBLL/lower/';
 save_file_upper='QBLL/upper/';
+
 K=3;
+se_array=zeros(num_of_forecast, model.horizon, K);
 ape_array=zeros(num_of_forecast, model.horizon, K);
+is_array=zeros(num_of_forecast, model.horizon, K);
 sis_array=zeros(num_of_forecast, model.horizon, K);
-
-
 
 for num=1:num_of_forecast
 num
@@ -66,8 +66,6 @@ model.actual = (data((e+1):(e+model.horizon),:))';
 model.N = N;
 
 
-%
-%mcmcoptions.adapt.T = 100;
 mcmcoptions.adapt.T = 100;
 mcmcoptions.adapt.Burnin = 0;
 mcmcoptions.adapt.StoreEvery = 1;
@@ -278,22 +276,32 @@ csvwrite(upper_file,(forecast_output.upper_forecast)');
 for ts=1:K
     ape=ape_cal(model.actual(ts,:)',forecast_output.PointF(:,ts));
     ape_array(num,:,ts)=ape;
-    sis=sis_cal(Y_saved(:,ts),model.actual(ts,:)',forecast_output.lower_forecast(:,ts),forecast_output.upper_forecast(:,ts),0.05,model.horizon);
+    se=se_cal(model.actual(ts,:)',forecast_output.PointF(:,ts));
+    se_array(num,:,ts)=se;
+    is=is_cal(model.actual(ts,:)',forecast_output.lower_forecast(:,ts),forecast_output.upper_forecast(:,ts),0.05);
+    is_array(num,:,ts)=is;
+    sis=sis_cal(Y_saved(:,ts),model.actual(ts,:)',forecast_output.lower_forecast(:,ts),forecast_output.upper_forecast(:,ts),0.05,freq);
     sis_array(num,:,ts)=sis;
 end
+
 end
 
+
 %print accuracy
+mean_se=mean(se_array,[1]);
 mean_ape=mean(ape_array,[1]);
+mean_is=mean(is_array,[1]);
 mean_sis=mean(sis_array,[1]);
 for ts=1:K
     disp('ts')
     ts
-    disp('ape')
+    disp('se:h1-12')
+    mean_se(:,:,ts)
+    disp('ape:h1-12')
     mean_ape(:,:,ts)
-    disp('sis')
+    disp('is:h1-12')
+    mean_is(:,:,ts)
+    disp('sis:h1-12')
     mean_sis(:,:,ts)
 end
 
-
-   
