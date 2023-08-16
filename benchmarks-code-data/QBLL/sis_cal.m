@@ -8,12 +8,13 @@ function sis=sis_cal(insample,outsample,lower,upper,a,freq)
 [T,m]=size(insample);
 [h,n]=size(outsample);
 l=T-freq;
-error=zeros(l,1);
-for j=(freq+1):T
+m = [];
+for j = (freq + 1):T
     %Y.saved (m,l)
-   error(j,1)=abs(insample(j,1)-insample((j-freq),1)) ;
+    %error(j,1)=abs(insample(j,1)-insample((j-freq),1)) ;
+    m = [m, abs(insample(j) - insample(j - freq))];
 end
-masep=mean(error);
+masep=mean(m);
 b=zeros(h,1);
 for i=1:h
      U.subtract.L=upper(i,1)-lower(i,1);
