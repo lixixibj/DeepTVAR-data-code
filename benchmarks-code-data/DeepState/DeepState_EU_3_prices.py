@@ -82,7 +82,8 @@ def deepState(data,frequency,seasonality,h,starting_time,figure_saving_path):
         prediction_length=h,
         freq=frequency,
         use_feat_static_cat=False,
-        cardinality=[1]
+        #number of ts
+        cardinality=[3]
     )
 
     predictor = estimator.train(train_ds)
