@@ -481,17 +481,31 @@ VAR_EU_3_prices.R
 ```
 The output of forecasting accuracies in terms of MSE, MAPE, MIS and MSIS at h=1,...,12 is 
 ```
+> 
 > print('ts')
 [1] "ts"
 > print(1)
 [1] 1
-> # print('mse')
-> # print(colMeans(mse.accuracy.m.ts1))
+> print('mse')
+[1] "mse"
+> mse1=colMeans(mse.accuracy.m.ts1)
+> print(colMeans(mse.accuracy.m.ts1))
+ [1] 0.01188507 0.02476166 0.03784571 0.05755078 0.07707349 0.09246908 0.09361060 0.09680412
+ [9] 0.10049559 0.09871302 0.09887104 0.11357693
+> print('h1-6')
+[1] "h1-6"
+> print(mean(mse1[1:6]))
+[1] 0.0502643
+> print('h1-12')
+[1] "h1-12"
+> print(mean(mse1[1:12]))
+[1] 0.07530476
+> 
 > print('mape')
 [1] "mape"
 > mape=colMeans(mape.accuracy.m.ts1)
-> print('h1-4')
-[1] "h1-4"
+> print('h1-6')
+[1] "h1-6"
 > print(mean(mape[1:6]))
 [1] 4.676767
 > print('h1-12')
@@ -499,11 +513,14 @@ The output of forecasting accuracies in terms of MSE, MAPE, MIS and MSIS at h=1,
 > print(mean(mape[1:12]))
 [1] 6.013428
 > print(colMeans(mape.accuracy.m.ts1))
- [1] 2.335064 3.450244 4.023268 5.151567 6.123860 6.976601 6.786616 7.046278 7.620397 7.460051 7.308975 7.878212
+ [1] 2.335064 3.450244 4.023268 5.151567 6.123860 6.976601 6.786616 7.046278 7.620397 7.460051
+[11] 7.308975 7.878212
+> 
 > print('msis')
 [1] "msis"
 > print(colMeans(msis.accuracy.m.ts1))
- [1] 2.599609 3.487750 5.371474 6.999001 6.582060 5.570876 6.815474 6.960009 6.604665 6.934745 7.249920 7.552000
+ [1] 2.599609 3.487750 5.371474 6.999001 6.582060 5.570876 6.815474 6.960009 6.604665 6.934745
+[11] 7.249920 7.552000
 > msis=colMeans(msis.accuracy.m.ts1)
 > print('h1-6')
 [1] "h1-6"
@@ -514,13 +531,42 @@ The output of forecasting accuracies in terms of MSE, MAPE, MIS and MSIS at h=1,
 > print(mean(msis[1:12]))
 [1] 6.060632
 > 
+> print('mis')
+[1] "mis"
+> print(colMeans(mis.accuracy.m.ts1))
+ [1] 0.4369075 0.5865419 0.8899457 1.1541930 1.0958534 0.9379158 1.1428956 1.1685877 1.1124237
+[10] 1.1680171 1.2211019 1.2719817
+> mis1=colMeans(mis.accuracy.m.ts1)
+> print('h1-6')
+[1] "h1-6"
+> print(mean(mis1[1:6]))
+[1] 0.8502262
+> print('h1-12')
+[1] "h1-12"
+> print(mean(mis1[1:12]))
+[1] 1.01553
+> 
+> 
 > 
 > print('ts')
 [1] "ts"
 > print(2)
 [1] 2
-> # print('mse')
-> # print(colMeans(mse.accuracy.m.ts1))
+> print('mse')
+[1] "mse"
+> mse2=colMeans(mse.accuracy.m.ts2)
+> print(colMeans(mse.accuracy.m.ts2))
+ [1] 0.008700075 0.016415219 0.022462267 0.042160659 0.063698522 0.089182473 0.118664171
+ [8] 0.152652720 0.184450797 0.210992731 0.222530212 0.236135318
+> print('h1-6')
+[1] "h1-6"
+> print(mean(mse2[1:6]))
+[1] 0.04043654
+> print('h1-12')
+[1] "h1-12"
+> print(mean(mse2[1:12]))
+[1] 0.1140038
+> 
 > print('mape')
 [1] "mape"
 > mape2=colMeans(mape.accuracy.m.ts2)
@@ -533,13 +579,14 @@ The output of forecasting accuracies in terms of MSE, MAPE, MIS and MSIS at h=1,
 > print(mean(mape2[1:12]))
 [1] 9.080905
 > print(colMeans(mape.accuracy.m.ts2))
- [1]  2.380772  3.653288  4.035841  5.699330  6.973600  8.405994  9.785554 11.156846 12.880147 13.963337 14.553888
-[12] 15.482259
+ [1]  2.380772  3.653288  4.035841  5.699330  6.973600  8.405994  9.785554 11.156846 12.880147
+[10] 13.963337 14.553888 15.482259
+> 
 > print('msis')
 [1] "msis"
 > print(colMeans(msis.accuracy.m.ts2))
- [1]  2.283454  2.383109  3.349922  4.674728  7.051822 10.507793 13.180615 16.248076 18.791012 20.361912 18.807391
-[12] 16.948318
+ [1]  2.283454  2.383109  3.349922  4.674728  7.051822 10.507793 13.180615 16.248076 18.791012
+[10] 20.361912 18.807391 16.948318
 > msis2=colMeans(msis.accuracy.m.ts2)
 > print('h1-6')
 [1] "h1-6"
@@ -550,12 +597,41 @@ The output of forecasting accuracies in terms of MSE, MAPE, MIS and MSIS at h=1,
 > print(mean(msis2[1:12]))
 [1] 11.21568
 > 
+> 
+> print('mis')
+[1] "mis"
+> print(colMeans(mis.accuracy.m.ts2))
+ [1] 0.5200200 0.5345973 0.7370087 1.0227053 1.5247733 2.2462955 2.8113842 3.4590339 3.9967360
+[10] 4.3302429 4.0185606 3.6300224
+> mis2=colMeans(mis.accuracy.m.ts2)
+> print('h1-6')
+[1] "h1-6"
+> print(mean(mis2[1:6]))
+[1] 1.097567
+> print('h1-12')
+[1] "h1-12"
+> print(mean(mis2[1:12]))
+[1] 2.402615
+> 
 > print('ts')
 [1] "ts"
 > print(3)
 [1] 3
-> # print('mse')
-> # print(colMeans(mse.accuracy.m.ts1))
+> print('mse')
+[1] "mse"
+> mse3=colMeans(mse.accuracy.m.ts3)
+> print(colMeans(mse.accuracy.m.ts3))
+ [1] 0.001372272 0.005291837 0.009146024 0.011936061 0.014256716 0.015641630 0.016314175
+ [8] 0.016597048 0.016965454 0.017940767 0.019055213 0.020065467
+> print('h1-6')
+[1] "h1-6"
+> print(mean(mse3[1:6]))
+[1] 0.009607423
+> print('h1-12')
+[1] "h1-12"
+> print(mean(mse3[1:12]))
+[1] 0.01371522
+> 
 > print('mape')
 [1] "mape"
 > mape3=colMeans(mape.accuracy.m.ts3)
@@ -568,12 +644,14 @@ The output of forecasting accuracies in terms of MSE, MAPE, MIS and MSIS at h=1,
 > print(mean(mape3[1:12]))
 [1] 16.1194
 > print(colMeans(mape.accuracy.m.ts3))
- [1]  4.957031  8.937322 11.485961 13.714464 16.436778 18.761090 19.144820 19.602825 18.998903 19.579763 21.070967
-[12] 20.742929
+ [1]  4.957031  8.937322 11.485961 13.714464 16.436778 18.761090 19.144820 19.602825 18.998903
+[10] 19.579763 21.070967 20.742929
+> 
 > print('msis')
 [1] "msis"
 > print(colMeans(msis.accuracy.m.ts3))
- [1] 1.181309 2.433108 3.719531 4.032329 3.917401 4.284679 4.651278 4.990386 5.307343 5.606094 5.889676 6.160322
+ [1] 1.181309 2.433108 3.719531 4.032329 3.917401 4.284679 4.651278 4.990386 5.307343 5.606094
+[11] 5.889676 6.160322
 > msis3=colMeans(msis.accuracy.m.ts3)
 > print('h1-6')
 [1] "h1-6"
@@ -583,6 +661,21 @@ The output of forecasting accuracies in terms of MSE, MAPE, MIS and MSIS at h=1,
 [1] "h1-12"
 > print(mean(msis3[1:12]))
 [1] 4.347788
+> 
+> print('mis')
+[1] "mis"
+> print(colMeans(mis.accuracy.m.ts3))
+ [1] 0.1743438 0.3550837 0.5377414 0.5893892 0.5814903 0.6369823 0.6917594 0.7423679 0.7896538
+[10] 0.8342223 0.8765270 0.9168990
+> mis3=colMeans(mis.accuracy.m.ts3)
+> print('h1-6')
+[1] "h1-6"
+> print(mean(mis3[1:6]))
+[1] 0.4791718
+> print('h1-12')
+[1] "h1-12"
+> print(mean(mis3[1:12]))
+[1] 0.6438717
 ```
 The corresponding forecasts will be saved in the folder `benchmarks-code-data/VAR/`.
 
