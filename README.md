@@ -54,7 +54,7 @@ pip install matplotlib==3.3.4
 ```
 ## DeepTVAR
 #### Simulation study
-The following code will quickly plot simulation results based on 100 simulation runs
+The following code will quickly plot simulation results based on pre-trained models from 100 simulation runs
 ```
 python quick_plot_simu_res.py
 ```
