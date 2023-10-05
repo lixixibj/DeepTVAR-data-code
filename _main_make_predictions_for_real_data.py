@@ -323,13 +323,13 @@ def forecast_based_on_pretrained_model(original_train_test_data,m,order,differen
         mape_list.append(mape_cal(acutal_observations_for_test[:,i], point_forecast_array[i,:]))
 
         print('mis')
-        print(mis(acutal_observations_for_test[:,i],upper_forecast_array[i,:], lower_forecast_array[i,:], 0.05, horizon))
+        print(mis_cal(acutal_observations_for_test[:,i],upper_forecast_array[i,:], lower_forecast_array[i,:], 0.05, horizon))
         print('mean-mis')
         print(np.mean(mis_cal(acutal_observations_for_test[:,i],upper_forecast_array[i,:], lower_forecast_array[i,:], 0.05, horizon)))
         mis_list.append(mis_cal( acutal_observations_for_test[:,i],upper_forecast_array[i,:], lower_forecast_array[i,:], 0.05, horizon))
 
         print('msis')
-        print(msis(original_observations[0:(seqence_len_train_of_diff_data+1),i], acutal_observations_for_test[:,i],
+        print(msis_cal(original_observations[0:(seqence_len_train_of_diff_data+1),i], acutal_observations_for_test[:,i],
                        upper_forecast_array[i,:], lower_forecast_array[i,:], 0.05, seasonality, horizon))
         print('mean-msis')
         print(np.mean(msis_cal(original_observations[0:(seqence_len_train_of_diff_data+1),i], acutal_observations_for_test[:,i],
