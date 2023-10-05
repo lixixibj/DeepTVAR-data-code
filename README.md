@@ -36,7 +36,7 @@ All the computations were executed on an Intel Core i9 2.3 GHz processor with ei
 All Python code was implemented using 
 [![Python v3.6.15](https://img.shields.io/badge/python-v3.6.15-blue.svg)](https://www.python.org/downloads/release/python-3615/), and Pytorch was used for network training.
 
-Installation in a virtual environment is recommended:
+To reproduce all results, installation in a virtual environment as follows is essential:
 ```
 #install python with version 3.6.15
 conda create --name python36 python=3.6.15
