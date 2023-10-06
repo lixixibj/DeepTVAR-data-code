@@ -176,6 +176,12 @@ All the code and data for the implementations of benchmark models are in the fol
     ├── QBLL                     # Kernel based time-varying VAR model                  
     └── VAR               # Standard time-invariant VAR model
  ```
+The additional installation of other packages with specific versions is needed using
+```
+pip install gluonts==0.8.1 
+pip install mxnet --ignore-installed certifi
+```
+
 #### 1. DeepAR
 The following Python code will make predictions from 20 training samples using the DeepAR model
 ```
