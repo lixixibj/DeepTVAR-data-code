@@ -46,7 +46,7 @@ pip install --upgrade typing-extensions
 pip install torch==1.10.2 torchvision==0.11.3 torchaudio==0.10.2 -f https://download.pytorch.org/whl/cpu/torch_stable.html
 ```
 
-Ps: Using Python 3.7 or 3.8 should work fine; however, having the correct version of PyTorch is essential.
+Ps: If the installation of python 3.6 fails, using Python 3.7 or 3.8 should work fine; however, having the correct version of PyTorch is essential.
 
 The additional installation of other packages with specific versions can be implemented using
 ```
