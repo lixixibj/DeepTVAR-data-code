@@ -9,7 +9,6 @@ from forecasting_accuracy import *
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-import ray
 from tqdm.autonotebook import tqdm
 from itertools import islice
 import matplotlib as mpl
