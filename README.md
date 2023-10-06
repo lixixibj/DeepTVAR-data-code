@@ -181,7 +181,7 @@ The additional installation of other packages with specific versions is needed u
 pip install gluonts==0.8.1 
 pip install mxnet --ignore-installed certifi
 ```
-
+Ps: Using Python 3.6 is essential for DeepAR and DeepState.
 #### 1. DeepAR
 The following Python code will make predictions from 20 training samples using the DeepAR model
 ```
