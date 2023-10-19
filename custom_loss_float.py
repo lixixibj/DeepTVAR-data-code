@@ -28,7 +28,7 @@ def compute_log_likelihood(
 var_cov_params_for_initial_obs
 ):
     r"""
-        Compute -2*log-likelihood function using conditional density.
+        Compute -log-likelihood.
         Parameters
         ----------
         target
@@ -126,7 +126,7 @@ var_cov_params_for_initial_obs
 
 
     #return 0.5*(log_likelihood_temp+len_of_seq*torch.log(torch.tensor(math.pi))),coeff_parameters,var_cov_parameters
-    return 0.5*(log_likelihood_temp+len_of_seq*torch.log(torch.tensor(math.pi)))
+    return 0.5*(log_likelihood_temp+m*len_of_seq*torch.log(torch.tensor(2*math.pi)))
 
 
 
