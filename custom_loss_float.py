@@ -54,7 +54,7 @@ var_cov_params_for_initial_obs
 
         Returns
         -------
-        -2*log-likelihood
+        -log-likelihood
     """
     #print('tttttt')
 
