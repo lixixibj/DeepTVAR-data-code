@@ -689,7 +689,7 @@ The corresponding forecasts will be saved in the folder `benchmarks-code-data/VA
 References
 ----------
 
-- Xixi Li, Jingsong Yuan (2023).  DeepTVAR: Deep Learning for a Time-Varying VAR Model with Extension to Integrated VAR.  [Working paper]().
+- Xixi Li, Jingsong Yuan (2023).  DeepTVAR: Deep Learning for a Time-Varying VAR Model with Extension to Integrated VAR.  [International Journal of Forecasting]().
 
 
 
