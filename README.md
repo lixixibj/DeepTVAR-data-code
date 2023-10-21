@@ -62,7 +62,7 @@ python quick_plot_simu_res.py
 ```
 The plots for estimated time-varying coefficients, variances, and covariances of innovations will be saved in the folder `simulation-res/estimated-A-mean/` and `simulation-res/estimated-var-cov-mean/` respectively.
 
-The following code will do parameter estimation from scratch using the DeepTVAR model on 100 simulated two-dimensional time-varying VAR(2) processes.
+The following code will do parameter estimation from scratch using the DeepTVAR model on 100 simulated two-dimensional time-varying VAR(2) processes. The running time for each set of simulation studies is approximately 10 minutes.
 ```
 python _main_for_para_estimation.py
 ```
