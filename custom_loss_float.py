@@ -1,4 +1,4 @@
-1  #!/usr/bin/env python35
+1  #!/usr/bin/env python36
 2  # -*- coding: utf-8 -*-
 3  # @File  : custom_loss.py
 4  # @Author: Xixi Li
