@@ -53,6 +53,8 @@ The additional installation of other packages with specific versions can be impl
 pip install pandas==1.1.5 
 pip install packaging==21.3 
 pip install matplotlib==3.3.4
+#for deepar and deepstate
+pip install mxnet==1.7.0.post2 gluonts==0.8.1 numpy==1.19.5 pandas
 ```
 ## DeepTVAR
 #### Simulation study
